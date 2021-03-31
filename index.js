@@ -13,23 +13,30 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   const collection = client.db(`${process.env.DB_NAME}`).collection("products");
   
-  
+  app.post('/addEvent',(req,res)=>{
+    const newEvent = req.body;
+    collection.insertOne(newEvent)
+    .then(result=>{
+        console.log('inserted count',result.insertedCount)
+        res.send(result)
+    })
+  })
+
+  app.get('/products',(req,res)=>{
+    collection.find({})
+    .toArray((err,documents)=>{
+      res.send(documents);
+    })
+  })
+  app.get('/', (req, res) => {
+    res.send('Hello World! habi jabi')
+  })
   
   // perform actions on the collection object
 //   client.close();
 });
 
-app.post('/addEvent',(req,res)=>{
-  const newEvent = req.body;
-  collection.insertOne(newEvent)
-  .then(result=>{
-      console.log('inserted count',result.insertedCount)
-      res.send(result)
-  })
-})
-app.get('/', (req, res) => {
-  res.send('Hello World! habi jabi')
-})
+
 
 
 app.listen(port)
