@@ -44,6 +44,11 @@ client.connect(err => {
   app.get('/', (req, res) => {
     res.send('Hello World! habi jabi')
   })
+  app.get('/book/:id', (req, res) => {
+    collection.find({_id:ObjectId(req.params.id)})
+    .toArray((err,documents)=>{
+      res.send(documents);
+  })
   
   // perform actions on the collection object
 //   client.close();
