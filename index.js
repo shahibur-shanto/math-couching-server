@@ -8,6 +8,7 @@ const port = process.env.PORT || 5000
 app.use(cors());
 app.use(bodyParser.json());
 const MongoClient = require('mongodb').MongoClient;
+const { request } = require('express');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qxopl.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
@@ -30,7 +31,11 @@ client.connect(err => {
   })
 
   app.delete('/delete/:id',(req,res)=>{
-    console.log(req.params.id);
+    // console.log(req.params.id);
+    collection.deleteOne({_id:req.params.id})
+    .then(result=> {
+      console.log("deleted successfully");
+    })
   })
 
   app.get('/', (req, res) => {
