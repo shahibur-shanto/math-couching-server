@@ -28,6 +28,11 @@ client.connect(err => {
       res.send(documents);
     })
   })
+
+  app.delete('/delete/:id',(req,res)=>{
+    console.log(req.params.id);
+  })
+
   app.get('/', (req, res) => {
     res.send('Hello World! habi jabi')
   })
