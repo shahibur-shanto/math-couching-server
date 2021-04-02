@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
 const port = process.env.PORT || 5000
 
@@ -32,10 +33,12 @@ client.connect(err => {
 
   app.delete('/delete/:id',(req,res)=>{
     // console.log(req.params.id);
-    collection.deleteOne({_id:req.params.id})
-    .then(result=> {
-      console.log("deleted successfully");
+    collection.deleteOne({_id:ObjectId(req.params.id)})
+    .then((result)=> {
+      console.log(result.deleteCount);
+
     })
+    
   })
 
   app.get('/', (req, res) => {
