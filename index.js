@@ -42,6 +42,14 @@ client.connect(err => {
     })
   })
 
+  app.get('/order',(req,res)=>{
+    
+    bookCollection.find({email:req.query.email})
+    .toArray((err,documents)=>{
+      res.send(documents);
+    })
+  })
+
   app.get('/book/:id',(req,res)=>{
     collection.find({_id:ObjectId(req.params.id)})
     .toArray((err,documents)=>{
